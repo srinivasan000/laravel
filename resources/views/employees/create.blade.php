@@ -5,7 +5,7 @@
         <h2 class="">ADD New Employee details</h2>
     </section>
     <section class="add-employeeform container">
-        <form action="{{ route('employees.store') }}" method="post">
+        <form action="{{ route('employees.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">New Employee Name:</label>
@@ -32,6 +32,14 @@
                     value="{{ old('salary') }}">
                 @if ($errors->has('salary'))
                     <span class="error">{{ $errors->first('salary') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="profile">profile</label>
+                <input type="file" name="profile" id="profile"
+                    class="form-control {{ $errors->has('profile') ? 'is-invalid' : '' }}" value="{{ old('profile') }}">
+                @if ($errors->has('profile'))
+                    <span class="error">{{ $errors->first('profile') }}</span>
                 @endif
             </div>
             <a href="{{ route('employees.index') }}" class="btn btn-danger m-3 ">cancel</a>

@@ -5,7 +5,7 @@
         <h2 class="">Update Employee details</h2>
     </section>
     <section class="add-employeeform container">
-        <form action="{{ route('employees.update', $employee->id) }}" method="POST">
+        <form action="{{ route('employees.update', $employee->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -35,8 +35,16 @@
                     <span class="error">{{ $errors->first('salary') }}</span>
                 @endif
             </div>
+            <div class="form-group">
+                <label for="profile">profile</label>
+                <input type="file" name="profile" id="profile"
+                    class="form-control {{ $errors->has('profile') ? 'is-invalid' : '' }}" value="{{ old('profile') }}">
+                @if ($errors->has('profile'))
+                    <span class="error">{{ $errors->first('profile') }}</span>
+                @endif
+            </div>
             <a href="{{ route('employees.index') }}" class="btn btn-danger m-3 ">cancel</a>
-            <button type="submit" class="btn btn-success m-3 ">save</button>
+            <button type="submit" class="btn btn-success m-3 ">Update</button>
 
         </form>
     </section>

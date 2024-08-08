@@ -11,8 +11,9 @@
         @if ($employees)
             <table>
                 <tr>
-                    <th>No</th>
+                    <th>Id</th>
                     <th>Name</th>
+                    <th>profile</th>
                     <th>designation</th>
                     <th>salary</th>
                     <th colspan="3">Actions</th>
@@ -21,6 +22,8 @@
                     <tr>
                         <td>{{ $employee->id }}</td>
                         <td>{{ $employee->name }}</td>
+                        <td><img src="{{ asset($employee->profile) }}" alt="{{ $employee->name }}"
+                                style="width:100px;height:100px;border-radius:50%;" /></td>
                         <td>{{ $employee->designation }}</td>
                         <td>{{ $employee->salary }}</td>
                         <td><a href="{{ route('employees.edit', $employee->id) }}" role="button" aria-label="update"><i

@@ -15,8 +15,8 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        $employees=Employee::orderBy("id","asc")->paginate(6);
-        return view("employees.home",compact("employees"));
+        $employees = Employee::orderBy("id", "asc")->paginate(4);
+        return view("employees.home", compact("employees"));
     }
 
     /**
@@ -39,11 +39,19 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "name"=>"required",
-            "designation"=>"required",
-            "salary"=>"required|numeric",
+            "name" => "required",
+            "designation" => "required",
+            "salary" => "required|numeric",
+            'profile' => 'required|mimes:jpeg,png,jpg,gif|file',
         ]);
-        $employees=Employee::create($request->all());
+        $data = $request->all();
+        if ($file = $request->file('profile')) {
+            $name = $file->getClientOriginalName();
+            $path = $file->move("uploads", $name);
+            $data['profile'] = $path;
+        }
+
+        $employees = Employee::create($data);
         return redirect()->route('employees.index')->with('success', 'New employee added successfully');
 
         //
@@ -58,7 +66,7 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
         //
-        return view('employees.details',compact("employee"));
+        return view('employees.details', compact("employee"));
     }
 
     /**
@@ -70,7 +78,7 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         //
-        return view("employees.edit",compact('employee'));
+        return view("employees.edit", compact('employee'));
     }
 
     /**
@@ -82,13 +90,20 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-         //
-         $request->validate([
-            "name"=>"required",
-            "designation"=>"required",
-            "salary"=>"required|numeric",
+        //
+        $request->validate([
+            "name" => "required",
+            "designation" => "required",
+            "salary" => "required|numeric",
+            'profile' => 'required|mimes:jpeg,png,jpg,gif|file',
         ]);
-        $employee->update($request->all());
+        $data = $request->all();
+        if ($file = $request->file('profile')) {
+            $name = $file->getClientOriginalName();
+            $path = $file->move("uploads", $name);
+            $data['profile'] = $path;
+        }
+        $employee->update($data);
         return redirect()->route('employees.index')->with('success', 'employee updated successfully');
     }
 
